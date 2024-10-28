@@ -2,15 +2,14 @@ package com.silstechnologie.bankaccountservice.web;
 
 import com.silstechnologie.bankaccountservice.entities.BankAccount;
 import com.silstechnologie.bankaccountservice.repositories.BankAccountRepositoty;
-import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/api")
 public class AccountRestController {
     private BankAccountRepositoty repositoty;
 
