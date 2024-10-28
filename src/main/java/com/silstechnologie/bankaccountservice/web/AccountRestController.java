@@ -1,7 +1,11 @@
 package com.silstechnologie.bankaccountservice.web;
 
+import com.silstechnologie.bankaccountservice.dto.BankAccountRequestDTO;
+import com.silstechnologie.bankaccountservice.dto.BankAccountResponseDTO;
 import com.silstechnologie.bankaccountservice.entities.BankAccount;
+import com.silstechnologie.bankaccountservice.mappers.AccountMapper;
 import com.silstechnologie.bankaccountservice.repositories.BankAccountRepositoty;
+import com.silstechnologie.bankaccountservice.services.AccountService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -12,9 +16,13 @@ import java.util.UUID;
 @RequestMapping("/api")
 public class AccountRestController {
     private BankAccountRepositoty repositoty;
+    private AccountService service;
+    private AccountMapper accountMapper;
 
-    public AccountRestController(BankAccountRepositoty repositoty) {
+    public AccountRestController(BankAccountRepositoty repositoty, AccountService service, AccountMapper accountMapper) {
         this.repositoty = repositoty;
+        this.service = service;
+        this.accountMapper = accountMapper;
     }
 
     @GetMapping("/bankAccounts")
@@ -29,10 +37,8 @@ public class AccountRestController {
     }
 
     @PostMapping("/bankAccounts")
-    public BankAccount save(@RequestBody BankAccount bankAccount){
-        bankAccount.setId(UUID.randomUUID().toString());
-        bankAccount.setCreatedAt(new Date());
-        return repositoty.save(bankAccount);
+    public BankAccountResponseDTO save(@RequestBody BankAccountRequestDTO bankAccount){
+        return service.addAccount(bankAccount);
     }
 
     @PutMapping("/bankAccounts/{id}")
