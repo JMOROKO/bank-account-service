@@ -1,0 +1,61 @@
+
+# Permet de lister les méthodes de graphQL.
+# Méthode : accountsList => Pour les méthodes sans paramètre
+# bankAccountById(id: String) => Pour les méthodes avec paramètre
+# Valeur de retour : [BankAccount] => Pour les listes
+# BankAccount pour les objet
+# NB: Les noms de méthodes utilisé ici devrons être mis dans
+# pour afficher l'interface de graphiQL
+# http://localhost:8080/graphiql?path=/graphql
+# pour envoyer une requete get afin de retourner des informations
+# query{
+#   bankAccountById(
+#     id : "4e691d48-a6d9-49b8-9b28-2a9af4b673b6")
+#   {
+#  	  id,
+#     balance
+#	}
+# }
+type Query{
+    accountsList: [BankAccount],
+    bankAccountById (id: String): BankAccount,
+    customers: [Customer]
+}
+
+# pour les requetes de type poste pour faire les enregistrements
+# pour envoyer la requete à partir de graphiQL
+# mutation {
+#    addAccount(bankAccountRequestDTO: {
+#        type: "SAVING_ACCOUNT",
+#        balance: 4000,
+#        currency: "USD"
+#    }) {
+#        id, type, balance
+#    }
+# }
+type Mutation {
+    addAccount(bankAccountRequestDTO: BankAccountRequestDTO) : BankAccount,
+    updateAccount(id: String, bankAccountRequestDTO: BankAccountRequestDTO) : BankAccount,
+    deleteAccount(id: String) : Boolean
+}
+
+type BankAccount{
+    id: String,
+    createdAt: Float,
+    balance: Float,
+    currency: String,
+    type: String,
+    customer: Customer
+}
+
+input BankAccountRequestDTO {
+    balance: Float,
+    currency: String,
+    type: String
+}
+
+type Customer {
+    id: ID,
+    name: String
+    bankAccounts: [BankAccount]
+}
